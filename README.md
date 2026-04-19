@@ -1,9 +1,6 @@
-# ============================================================
 # Fraudulent Loan Application Detection using Logistic Regression
 # Dataset: Kaggle Loan Dataset
-# Author: ML Mini Project
-# ============================================================
- 
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,10 +15,9 @@ from sklearn.metrics import (
 from sklearn.utils import resample
 import warnings
 warnings.filterwarnings('ignore')
- 
-# ============================================================
+
 # STEP 1: Load Dataset
-# ============================================================
+
 # Download from Kaggle: https://www.kaggle.com/datasets/
 #   altruistdelhite04/loan-prediction-problem-dataset
  
@@ -40,9 +36,7 @@ print(df.dtypes)
 print("\nMissing Values:")
 print(df.isnull().sum())
  
-# ============================================================
 # STEP 2: Data Preprocessing
-# ============================================================
  
 # Drop Loan_ID column (not useful for prediction)
 if 'Loan_ID' in df.columns:
@@ -80,9 +74,7 @@ df['Total_Income'] = df['ApplicantIncome'] + df['CoapplicantIncome']
 df['EMI'] = df['LoanAmount'] / df['Loan_Amount_Term']
 df['Balance_Income'] = df['Total_Income'] - (df['EMI'] * 1000)
  
-# ============================================================
 # STEP 3: Exploratory Data Analysis (EDA)
-# ============================================================
  
 plt.figure(figsize=(16, 12))
  
@@ -141,9 +133,7 @@ plt.savefig('correlation_heatmap.png', dpi=150, bbox_inches='tight')
 plt.show()
 print("Correlation heatmap saved.")
  
-# ============================================================
 # STEP 4: Feature Selection & Train-Test Split
-# ============================================================
  
 X = df.drop('Loan_Status', axis=1)
 y = df['Loan_Status']
@@ -179,9 +169,7 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
  
-# ============================================================
 # STEP 5: Model Training - Logistic Regression
-# ============================================================
  
 model = LogisticRegression(
     C=1.0,               # Regularization parameter
@@ -194,9 +182,7 @@ model = LogisticRegression(
 model.fit(X_train_scaled, y_train)
 print("\nLogistic Regression Model trained successfully!")
  
-# ============================================================
 # STEP 6: Model Evaluation
-# ============================================================
  
 y_pred = model.predict(X_test_scaled)
 y_proba = model.predict_proba(X_test_scaled)[:, 1]
@@ -256,10 +242,8 @@ plt.tight_layout()
 plt.savefig('feature_importance.png', dpi=150, bbox_inches='tight')
 plt.show()
 print("Feature importance plot saved.")
- 
-# ============================================================
+
 # STEP 7: Sample Prediction (Single Applicant)
-# ============================================================
  
 print("\n" + "=" * 60)
 print("SAMPLE FRAUD DETECTION PREDICTION")
